@@ -7,4 +7,10 @@ Includes:
 https://l1uk3.github.io/Spectrophotometer-Output-Visualiser/
 
 - Initial python script that outputs the graph of a text file in the directory using matplotlib
+
+TO IMPROVE:
+- Find a better way to present the data - the scale ofthe y-axis is too large at the moment
+
+- support uploading multiple files that show as different lines on the same graph
+
 ```
