@@ -9,35 +9,8 @@ const GRAPH_ZONE = document.getElementById('graphContainer');
 
 
 
-DROP_ZONE.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    DROP_ZONE.classList.add('dragover');
-});
-
-DROP_ZONE.addEventListener('dragleave', () => {
-    DROP_ZONE.classList.remove('dragover');
-});
-
-DROP_ZONE.addEventListener('drop', (e) => {
-    e.preventDefault();
-    DROP_ZONE.classList.remove('dragover');
-    handleFiles(e.dataTransfer.files);
-});
-
-FILE_INPUT.addEventListener('change', (e) => {
-    handleFiles(e.target.files);
-});
 
 // TODO: #2 Add error handling for file reading and parsing
-
-function handleFiles(files) {
-    if (files.length > 0) {
-        const file = files[0];
-        FILE_INFO.innerHTML = `<p><strong>File:</strong> ${file.name}<br><strong>Size:</strong> ${(file.size / 1024).toFixed(2)} KB</p>`;
-        getData(file);
-        outputGraph();
-    }
-};
 
 function getData(file) {
     if (file) {
@@ -49,15 +22,15 @@ function getData(file) {
             const x = [];
             const y = [];
             
-            for (let i = lines.length - 1; i >= 0; i--) {
+            for (let i = 0; i < lines.length; i++) {
                 const data = lines[i].trim().split(/\s+/);
                 if (data.length === 2) {
-                    FILE_INFO.innerHTML += `<p>${lines[i]}</p>`;
-                    try {
-                        x.push(parseFloat(data[0]));
-                        y.push(parseFloat(data[1]));
-                    } catch (error) {
-                        break;
+                    const parsedX = parseFloat(data[0]);
+                    const parsedY = parseFloat(data[1]);
+                    if (!isNaN(parsedX) && !isNaN(parsedY)) {
+                        FILE_INFO.innerHTML += `<p>${lines[i]}</p>`;
+                        x.push(parsedX);
+                        y.push(parsedY);
                     }
                 }
             }
@@ -79,6 +52,9 @@ function outputGraph() {
         return;
     }
 
+    const maxY = Math.max(...yData);
+    const minY = Math.min(...yData);
+
     const trace = {
         x: xData,
         y: yData,
@@ -97,3 +73,32 @@ function outputGraph() {
     Plotly.newPlot(GRAPH_ZONE, [trace], layout);
     
 }
+
+
+function handleFiles(files) {
+    if (files.length > 0) {
+        const file = files[0];
+        FILE_INFO.innerHTML = `<p><strong>File:</strong> ${file.name}<br><strong>Size:</strong> ${(file.size / 1024).toFixed(2)} KB</p>`;
+        getData(file);
+        outputGraph();
+    }
+};
+
+DROP_ZONE.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    DROP_ZONE.classList.add('dragover');
+});
+
+DROP_ZONE.addEventListener('dragleave', () => {
+    DROP_ZONE.classList.remove('dragover');
+});
+
+DROP_ZONE.addEventListener('drop', (e) => {
+    e.preventDefault();
+    DROP_ZONE.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+});
+
+FILE_INPUT.addEventListener('change', (e) => {
+    handleFiles(e.target.files);
+});
