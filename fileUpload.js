@@ -5,7 +5,7 @@
 const DROP_ZONE = document.getElementById('dropZone');
 const FILE_INPUT = document.getElementById('fileInput');
 const FILE_INFO = document.getElementById('fileInfo');
-const GRAPH_ZONE = document.getElementById('graphZone');
+const GRAPH_ZONE = document.getElementById('graphContainer');
 
 
 
@@ -72,5 +72,29 @@ function getData() {
 }
 
 function outputGraph() {
-    pass
+    const xData = JSON.parse(FILE_INFO.dataset.x || '[]');
+    const yData = JSON.parse(FILE_INFO.dataset.y || '[]');
+
+    if (xData.length === 0 || yData.length === 0) {
+        setTimeout(outputGraph, 100); // Wait for FileReader to finish if data isn't ready
+        return;
+    }
+
+    const trace = {
+        x: xData,
+        y: yData,
+        type: 'scatter',
+        mode: 'lines',
+        name: 'Spectrometer Reading'
+    };
+
+    const layout = {
+        title: 'Spectrometer Data Visualization',
+        xaxis: { title: 'Wavelength' },
+        yaxis: { title: 'Intensity' },
+        autosize: true
+    };
+
+    Plotly.newPlot(GRAPH_ZONE, [trace], layout);
+    
 }
