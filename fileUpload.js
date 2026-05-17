@@ -26,8 +26,6 @@ DROP_ZONE.addEventListener('drop', (e) => {
 
 FILE_INPUT.addEventListener('change', (e) => {
     handleFiles(e.target.files);
-    getData();
-    outputGraph();
 });
 
 // TODO: #2 Add error handling for file reading and parsing
@@ -36,11 +34,12 @@ function handleFiles(files) {
     if (files.length > 0) {
         const file = files[0];
         FILE_INFO.innerHTML = `<p><strong>File:</strong> ${file.name}<br><strong>Size:</strong> ${(file.size / 1024).toFixed(2)} KB</p>`;
+        getData(file);
+        outputGraph();
     }
 };
 
-function getData() {
-    const file = FILE_INPUT.files[0];
+function getData(file) {
     if (file) {
         const reader = new FileReader();
         reader.onload = (event) => {
