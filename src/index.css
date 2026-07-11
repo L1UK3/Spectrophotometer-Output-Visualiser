@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Color Variables based on old/styles.css (#1a191b background) with premium enhancements */
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color-scheme: dark;
+
+  --bg-color: #1a191b; /* Exact base background from old/styles.css */
+  --bg-gradient: radial-gradient(circle at 50% 0%, #272528 0%, #1a191b 80%);
+  --panel-bg: #222124; /* Slightly lighter card background for premium contrast */
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --panel-hover: rgba(255, 255, 255, 0.12);
+
+  --text-primary: #ffffff;
+  --text-secondary: #a3a3a6;
+  --text-muted: #666666; /* Exact muted color from old/styles.css */
+
+  --accent-color: #6366f1; /* Premium Indigo */
+  --accent-hover: #4f46e5;
+  --accent-glow: rgba(99, 102, 241, 0.25);
+  --accent-cyan: #06b6d4;
+  --accent-emerald: #10b981;
+  --accent-pink: #ec4899;
+
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --warning-color: #f59e0b;
+
+  --grid-line: rgba(255, 255, 255, 0.05);
+
+  --radius-sm: 4px; /* Default border radius from old/styles.css */
+  --radius-md: 8px; /* Default card border radius from old/styles.css */
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+}
+
+/* Core styles copied from old/styles.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  background-image: var(--bg-gradient);
+  color: var(--text-primary);
+  padding: 20px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px; /* Exact max-width from old/styles.css */
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center; /* Exact alignment from old/styles.css */
+  margin-bottom: 30px; /* Exact margin from old/styles.css */
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Optimized responsive grid */
+  gap: 20px; /* Exact gap from old/styles.css */
+  margin-top: 20px;
+}
+
+@media (max-width: 992px) {
+  .content {
+    grid-template-columns: 1fr; /* Responsive grid columns from old/styles.css */
+  }
+}
+
+.section {
+  background: var(--panel-bg); /* Base background from old/styles.css */
+  border-radius: var(--radius-md); /* Exact radius from old/styles.css */
+  padding: 20px; /* Exact padding from old/styles.css */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Upgraded drop shadow */
+  border: 1px solid var(--panel-border);
+  transition: border-color var(--transition-normal);
+}
+
+.section:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.section h3 {
+  margin-bottom: 15px; /* Exact margin from old/styles.css */
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+}
+
+.drop-zone {
+  border: 2px dashed #666; /* Base border from old/styles.css */
+  border-radius: var(--radius-md); /* Exact radius from old/styles.css */
+  padding: 40px; /* Exact padding from old/styles.css */
+  text-align: center;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.01);
+  transition: all var(--transition-normal);
+}
+
+.drop-zone:hover {
+  border-color: var(--accent-color);
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.drop-zone p {
+  color: var(--text-secondary);
+  margin-bottom: 10px; /* Exact margin from old/styles.css */
+}
+
+input[type="file"] {
+  display: none; /* Hide file inputs from old/styles.css */
+}
+
+button {
+  background-color: #89929b; /* Exact default color from old/styles.css */
+  color: white;
+  border: none;
+  padding: 10px 20px; /* Exact padding from old/styles.css */
+  border-radius: 4px; /* Exact radius from old/styles.css */
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+button:hover {
+  background-color: var(--accent-hover); /* Enhanced hover state */
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+#graphContainer {
+  width: 100%;
+  height: 440px;
+  border: 1px solid var(--panel-border);
+  border-radius: 4px; /* Exact radius from old/styles.css */
+  background-color: #121113; /* Darker plotting area background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-sm);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Enhanced action buttons */
+.custom-btn {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.custom-btn:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.custom-btn.secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--panel-border);
+  color: var(--text-primary);
+}
+
+.custom-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.custom-btn.danger {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.custom-btn.danger:hover {
+  background: rgba(239, 68, 68, 0.25);
+}
+
+.custom-input {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--panel-border);
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.custom-input:focus {
+  border-color: var(--accent-color);
+}
+
+
