@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 
 interface UploadBoxProps {
     onUploadFiles: (files: File[]) => void;
-    uploadedCount: number;
 }
 
 /**
  * A glassmorphic drag-and-drop box for uploading multiple spectrophotometer output text files.
  */
-function UploadBox({ onUploadFiles, uploadedCount }: UploadBoxProps) {
+function UploadBox({ onUploadFiles }: UploadBoxProps) {
     const [isDragging, setIsDragging] = useState(false);
 
     const handleDragOver = (e: React.DragEvent) => {
@@ -75,11 +74,7 @@ function UploadBox({ onUploadFiles, uploadedCount }: UploadBoxProps) {
                 >
                     Browse Files
                 </button>
-                {uploadedCount > 0 && (
-                    <div style={{ marginTop: '16px', fontSize: '0.75rem', color: 'var(--accent-emerald)', fontWeight: '600' }}>
-                        ✓ {uploadedCount} file{uploadedCount > 1 ? 's' : ''} loaded
-                    </div>
-                )}
+
             </div>
         </div>
     );

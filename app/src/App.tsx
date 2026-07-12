@@ -105,13 +105,13 @@ function App() {
                     visibleGraphIds={visibleGraphIds}
                     focusedGraphId={focusedGraphId}
                     graphColors={graphColors}
+                    onToggleVisibility={handleToggleVisibility}
                 />
 
                 {/* Right Side: Sidebar Upload & Stats */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <UploadBox
                         onUploadFiles={handleUploadFiles}
-                        uploadedCount={graphs.length}
                     />
                     <StatsPanel
                         graphs={graphs}
@@ -120,7 +120,7 @@ function App() {
                         graphColors={graphColors}
                         onToggleVisibility={handleToggleVisibility}
                         onDeleteGraph={handleDeleteGraph}
-                        onFocusGraph={setFocusedGraphId}
+                        uploadedCount={graphs.length}
                     />
                 </div>
             </div>

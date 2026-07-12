@@ -6,6 +6,7 @@ interface GraphPanelProps {
     visibleGraphIds: Record<string, boolean>;
     focusedGraphId: string | null;
     graphColors: Record<string, string>;
+    onToggleVisibility: (id: string) => void;
 }
 
 // Binary search to find nearest data point
@@ -27,7 +28,13 @@ const findNearestPoint = (coords: Array<{x: number; y: number}>, targetX: number
     return coords[low];
 };
 
-function GraphPanel({ graphs, visibleGraphIds, focusedGraphId, graphColors }: GraphPanelProps) {
+function GraphPanel({
+    graphs,
+    visibleGraphIds,
+    focusedGraphId,
+    graphColors,
+    onToggleVisibility,
+}: GraphPanelProps) {
     const svgRef = useRef<SVGSVGElement | null>(null);
 
     // Crosshair hover state
@@ -410,6 +417,72 @@ function GraphPanel({ graphs, visibleGraphIds, focusedGraphId, graphColors }: Gr
                     </div>
                 )}
             </div>
+
+            {/* Graph Legend */}
+            {graphs.length > 0 && (
+                <div
+                    style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center',
+                        gap: '12px 18px',
+                        marginTop: '5px',
+                        padding: '10px 14px',
+                    }}
+                >
+                    {graphs.map((g) => {
+                        const isVisible = !!visibleGraphIds[g.id];
+                        const isFocused = focusedGraphId === g.id;
+                        const color = graphColors[g.id] || '#ffffff';
+
+                        return (
+                            <div
+                                key={`legend-${g.id}`}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    cursor: 'pointer',
+                                    padding: '4px 8px',
+                                    borderRadius: 'var(--radius-sm)',
+                                    background: isFocused ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
+                                    border: isFocused ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid transparent',
+                                    opacity: isVisible ? 1 : 0.4,
+                                    transition: 'all 0.2s ease',
+                                    userSelect: 'none',
+                                }}
+                                onClick={() => onToggleVisibility(g.id)}
+                            >
+                                <span
+                                    style={{
+                                        display: 'inline-block',
+                                        width: '12px',
+                                        height: '12px',
+                                        borderRadius: '50%',
+                                        backgroundColor: isVisible ? color : 'transparent',
+                                        border: `2px solid ${color}`,
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                />
+                                <span
+                                    style={{
+                                        fontSize: '0.8125rem',
+                                        fontWeight: isFocused ? '600' : '500',
+                                        color: isVisible ? 'var(--text-primary)' : 'var(--text-secondary)',
+                                        maxWidth: '180px',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap',
+                                    }}
+                                    title={`${g.id} (${isVisible ? 'Click to hide' : 'Click to show'})`}
+                                >
+                                    {g.id}
+                                </span>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 }

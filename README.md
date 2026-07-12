@@ -13,4 +13,3 @@ TO IMPROVE:
 
 - support uploading multiple files that show as different lines on the same graph
 
-```

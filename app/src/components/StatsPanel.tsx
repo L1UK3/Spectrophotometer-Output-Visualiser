@@ -5,9 +5,9 @@ interface StatsPanelProps {
     visibleGraphIds: Record<string, boolean>;
     focusedGraphId: string | null;
     graphColors: Record<string, string>;
+    uploadedCount: number;
     onToggleVisibility: (id: string) => void;
     onDeleteGraph: (id: string) => void;
-    onFocusGraph: (id: string | null) => void;
 }
 
 /**
@@ -18,9 +18,9 @@ function StatsPanel({
     visibleGraphIds,
     focusedGraphId,
     graphColors,
+    uploadedCount,
     onToggleVisibility,
     onDeleteGraph,
-    onFocusGraph,
 }: StatsPanelProps) {
 
     if (graphs.length === 0) {
@@ -34,7 +34,12 @@ function StatsPanel({
     return (
         <div className="section animate-fade-in">
             <h3 style={{ fontSize: '1.25rem', marginBottom: '16px', color: 'var(--text-primary)' }}>
-                Spectral Analysis
+                Spectral Analysis <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginLeft: '8px' }}>({graphs.length} dataset{graphs.length > 1 ? 's' : ''})</span>
+                {uploadedCount > 0 && (
+                    <div style={{ marginTop: '16px', fontSize: '0.75rem', color: 'var(--accent-emerald)', fontWeight: '600' }}>
+                        {uploadedCount} file{uploadedCount > 1 ? 's' : ''} loaded
+                    </div>
+                )}
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {graphs.map((graph) => {
@@ -56,19 +61,17 @@ function StatsPanel({
                                 transition: 'all 0.2s ease',
                                 cursor: 'pointer',
                             }}
-                            onClick={() => onFocusGraph(isFocused ? null : graph.id)}
+                            onClick={() => onToggleVisibility(graph.id)}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.background = isFocused ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.15)';
+                            }}
                         >
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', maxWidth: '70%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={isVisible}
-                                        onChange={(e) => {
-                                            e.stopPropagation();
-                                            onToggleVisibility(graph.id);
-                                        }}
-                                        style={{ cursor: 'pointer', accentColor: color }}
-                                    />
+
                                     <span
                                         title={graph.id}
                                         style={{

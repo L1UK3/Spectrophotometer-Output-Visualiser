@@ -11,11 +11,7 @@ function Header() {
             }}
         >
             <div>
-                <h1
-
-                >
-                    Spectrophotometer Output Visualiser & Analyzer
-                </h1>
+                <h1>Spectrophotometer Output Visualiser & Analyzer</h1>
             </div>
         </header>
     );
