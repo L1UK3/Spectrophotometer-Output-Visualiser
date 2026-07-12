@@ -4,7 +4,7 @@ This project provides a web-based tool for visualising and analysing output data
 
 Includes:
 - Static webpage hosted on github pages:
-https://l1uk3.github.io/Spectrophotometer-Output-Visualiser/
+https://l1uk3.github.io/spectrophotometer-output-visualiser/
 
 - Initial python script that outputs the graph of a text file in the directory using matplotlib
 
